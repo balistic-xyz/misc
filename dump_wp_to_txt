@@ -1,0 +1,15 @@
+<?php
+require "../wp-config.php";
+$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+
+$posts = mysqli_query($link, "SELECT `post_content`, `post_title`, `post_status`, `post_author`, `post_type` FROM `wp_posts` WHERE `post_type` = 'post' AND `post_status` = 'publish'");
+
+foreach ($posts as $post)
+{
+	$fp = fopen('txt/'.$post['post_title'].'.txt', 'w');//opens file in append mode
+	fwrite($fp, $post['post_title']."\n".strip_tags($post['post_content'])); 
+	fclose($fp); 
+}
+                      
+?>
